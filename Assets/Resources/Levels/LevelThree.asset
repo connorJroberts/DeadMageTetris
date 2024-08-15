@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f6dd5ea552526dd4db193ef2fb7f7465, type: 3}
-  m_Name: LevelOne
+  m_Name: LevelThree
   m_EditorClassIdentifier: 
   LevelData:
     Shapes:
     - ShapeName: I-block
-      Enabled: 1
-      DropWeighting: 10
+      Enabled: 0
+      DropWeighting: 0
       ShapeString: 'I-block
 
         X____
@@ -58,7 +58,7 @@ MonoBehaviour:
         _____'
     - ShapeName: RZ-block
       Enabled: 1
-      DropWeighting: 15
+      DropWeighting: 5
       ShapeString: 'RZ-block
 
         _XX__
@@ -71,8 +71,8 @@ MonoBehaviour:
 
         _____'
     - ShapeName: Square-block
-      Enabled: 1
-      DropWeighting: 10
+      Enabled: 0
+      DropWeighting: 0
       ShapeString: 'Square-block
 
         OO___
@@ -85,8 +85,8 @@ MonoBehaviour:
 
         _____'
     - ShapeName: T-block
-      Enabled: 1
-      DropWeighting: 25
+      Enabled: 0
+      DropWeighting: 0
       ShapeString: 'T-block
 
         _X___
@@ -100,7 +100,7 @@ MonoBehaviour:
         _____'
     - ShapeName: Z-block
       Enabled: 1
-      DropWeighting: 15
+      DropWeighting: 5
       ShapeString: 'Z-block
 
         XX___
@@ -126,10 +126,10 @@ MonoBehaviour:
         _____
 
         _____'
-    WinningScore: 5
-    SpeedMin: 1
-    SpeedMax: 4
-    SpeedStep: 0.1
+    WinningScore: 15
+    SpeedMin: 5
+    SpeedMax: 8
+    SpeedStep: 0.15
     _shapeFileStrings:
     - 'I-block
 

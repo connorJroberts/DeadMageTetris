@@ -8,18 +8,19 @@ public struct ShapeData : ISerializationCallbackReceiver
 {
     public string ShapeName;
     public bool Enabled;
-    [Tooltip("This can be any number!!!")] public float DropChance;
+    [Tooltip("Determines the likeliness of a piece being selected")] public float DropWeighting;
+    public string ShapeString;
 
     public void OnAfterDeserialize()
     {
-        if (Enabled && DropChance < 1)
+        if (Enabled && DropWeighting < 1)
         {
-            DropChance = 1;
+            DropWeighting = 1;
         }
 
         if (!Enabled)
         {
-            DropChance = 0;
+            DropWeighting = 0;
         }
     }
 
