@@ -7,8 +7,8 @@ public class BoardController : MonoBehaviour
 
     public Vector2Int BoardDimensions => new Vector2Int(BOARDWIDTH, BOARDHEIGHT);
 
-    public int[,] BoardState = new int[BOARDWIDTH, BOARDHEIGHT];
-    public SpriteRenderer[,] BoardSprites = new SpriteRenderer[BOARDWIDTH, BOARDHEIGHT];
+    public int[,] BoardState = new int[BOARDWIDTH, BOARDHEIGHT + 3];
+    public SpriteRenderer[,] BoardSprites = new SpriteRenderer[BOARDWIDTH, BOARDHEIGHT + 3]; // + 3 for spawning room at top of screen
 
     //Max height of column
     public int GetColumnHeight(int x)
@@ -114,7 +114,7 @@ public class BoardController : MonoBehaviour
 
     public void Clear()
     {
-        BoardState = new int[BOARDWIDTH, BOARDHEIGHT];
+        BoardState = new int[BOARDWIDTH, BOARDHEIGHT + 3];
         foreach (SpriteRenderer sprite in BoardSprites)
         {
             if (sprite == null)
@@ -123,7 +123,7 @@ public class BoardController : MonoBehaviour
             }
             Destroy(sprite.gameObject);
         }
-        BoardSprites = new SpriteRenderer[BOARDWIDTH, BOARDHEIGHT];
+        BoardSprites = new SpriteRenderer[BOARDWIDTH, BOARDHEIGHT + 3];
     }
     public void PrintBoard()
     {

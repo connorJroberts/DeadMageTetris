@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.IO;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 
-[RequireComponent(typeof(ShapeMove))]
 public class Shape : MonoBehaviour
 {
     [SerializeField] private Sprite _sprite;
@@ -21,8 +21,17 @@ public class Shape : MonoBehaviour
 
     public void ConfigureShape(string shapeString)
     {
+        gameObject.AddComponent<ShapeMove>();
+        SpawnSprites(shapeString, out Vector3 pivotOffset);
+        transform.position = new Vector3(-0.5f, 3 -0.5f, 0) + pivotOffset; //ensures pivot in centre of pivot block(s) - means square will apear to not rotate :)
+
+    }
+
+    //For displaying a shape without spawning it into the world.
+    public void SpawnSprites(string shapeString, out Vector3 pivotOffset)
+    {
+        pivotOffset = Vector3.zero;
         ParseShapeString(shapeString, out Vector2 pivotLocation, out int[,] shapeDefinition);
-        Vector3 pivotOffset = Vector3.zero;
         for (int i = 0; i < shapeDefinition.GetLength(0); i++)
         {
             for (int j = 0; j < shapeDefinition.GetLength(1); j++)
@@ -35,12 +44,9 @@ public class Shape : MonoBehaviour
                 SpriteRenderer spriteRenderer = spriteTransform.AddComponent<SpriteRenderer>();
                 Blocks.Add(spriteRenderer);
                 spriteRenderer.sprite = _sprite;
-                spriteTransform.position = new Vector2(spriteSpawnPosition.x, spriteSpawnPosition.y);
+                spriteTransform.localPosition = new Vector2(spriteSpawnPosition.x, spriteSpawnPosition.y);
             }
         }
-
-        transform.position = new Vector3(  -0.5f , -0.5f, 0) + pivotOffset; //Aligns with grid while ensuring pivot in centre of pivot block
-
     }
 
     public void ParseShapeString(string shapeString, out Vector2 pivotLocation, out int[,] shapeDefinition)
@@ -109,6 +115,10 @@ public class Shape : MonoBehaviour
         {
             Vector3Int blockPosition = WorldGrid.WorldToCell(block.transform.position);
             block.transform.parent = GameManager.Instance.Board.transform;
+            if (GameManager.Instance.Board.BoardSprites[blockPosition.x, blockPosition.y] != null && GameManager.Instance.Board.BoardSprites[blockPosition.x, blockPosition.y] != block)
+            {
+                Destroy(GameManager.Instance.Board.BoardSprites[blockPosition.x, blockPosition.y]); //Sanity check just in case something happens, game won't break
+            }
             GameManager.Instance.Board.BoardSprites[blockPosition.x, blockPosition.y] = block;
             GameManager.Instance.Board.BoardState[blockPosition.x, blockPosition.y] = 1;
         }

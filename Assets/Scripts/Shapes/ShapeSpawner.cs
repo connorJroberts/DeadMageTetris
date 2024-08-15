@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ShapeSpawner : MonoBehaviour
 {
@@ -9,12 +10,13 @@ public class ShapeSpawner : MonoBehaviour
     public string NextShape {  get; private set; }
     public Shape CurrentShape { get; private set; }
 
-    private LevelData _levelData => GameManager.Instance.CurrentLevelData;
     List<ShapeData> shapeList = new List<ShapeData>();
+
+    public UnityEvent<string> OnShapeSpawned;
 
     private void Start()
     {
-        foreach (var shapeData in _levelData.Shapes)
+        foreach (var shapeData in GameManager.Instance.CurrentLevelData.Shapes)
         {
             if (shapeData.Enabled == true)
             {
@@ -26,6 +28,8 @@ public class ShapeSpawner : MonoBehaviour
         SpawnShape();
 
         GameManager.Instance.OnLevelFinished.AddListener(DisableSelf);
+        GameManager.Instance.OnLastLevelFinished.AddListener(DisableSelf);
+        GameManager.Instance.OnLevelStarted.AddListener(EnableSelf);
     }
 
     private void DisableSelf()
@@ -36,6 +40,15 @@ public class ShapeSpawner : MonoBehaviour
     private void EnableSelf()
     {
         enabled = true;
+        shapeList.Clear();
+        foreach (var shapeData in GameManager.Instance.CurrentLevelData.Shapes)
+        {
+            if (shapeData.Enabled == true)
+            {
+                shapeList.Add(shapeData);
+            }
+        }
+        SpawnShape();
     }
 
     public void SpawnShape()
@@ -46,6 +59,8 @@ public class ShapeSpawner : MonoBehaviour
         }
         if (GameManager.Instance.Board.GetMaxHeight() >= BoardController.BOARDHEIGHT)
         {
+            GameManager.Instance.OnLevelLose.Invoke();
+            DisableSelf();
             return;
         }
         if (CurrentShape != null)
@@ -61,8 +76,8 @@ public class ShapeSpawner : MonoBehaviour
         shape.ConfigureShape(NextShape);
         shape.OnPlaced.AddListener(SpawnShape);
         NextShape = ChooseShapeFromWeight(shapeList);
+        OnShapeSpawned.Invoke(NextShape);
     }
-
 
     public string ChooseShapeFromWeight(List<ShapeData> shapeList)
     {

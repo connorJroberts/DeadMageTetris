@@ -127,8 +127,8 @@ MonoBehaviour:
 
         _____'
     WinningScore: 10
-    SpeedMin: 4
-    SpeedMax: 6
+    SpeedMin: 3
+    SpeedMax: 5
     SpeedStep: 0.1
     _shapeFileStrings:
     - 'I-block
