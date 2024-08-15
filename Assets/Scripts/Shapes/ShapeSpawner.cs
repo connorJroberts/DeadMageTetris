@@ -16,7 +16,7 @@ public class ShapeSpawner : MonoBehaviour
     {
         foreach (var shapeData in _levelData.Shapes)
         {
-            if (shapeData.Enabled)
+            if (shapeData.Enabled == true)
             {
                 shapeList.Add(shapeData);
             }
@@ -40,12 +40,21 @@ public class ShapeSpawner : MonoBehaviour
 
     public void SpawnShape()
     {
-        if (enabled == false) return;
+        if (enabled == false)
+        {
+            return;
+        }
+        if (GameManager.Instance.Board.GetMaxHeight() >= BoardController.BOARDHEIGHT)
+        {
+            return;
+        }
+        if (CurrentShape != null)
+        {
+            Destroy(CurrentShape.gameObject);
+        }
         GameManager.Instance.StepSpeed();
-        if (GameManager.Instance.Board.GetMaxHeight() >= BoardController.BOARDHEIGHT) return;
         GameObject shapeObject = new GameObject("CurrentShape");
         Shape shape = shapeObject.AddComponent<Shape>();
-        if (CurrentShape != null ) Destroy(CurrentShape.gameObject);
         CurrentShape = shape;
         shape.WorldGrid = WorldGrid;
         shape.SetSprite(_sprite);
@@ -68,7 +77,10 @@ public class ShapeSpawner : MonoBehaviour
         float randomNumber = Random.Range(0, weightSum);
 
         for (int i = weightBoundaries.Count - 1; i >= 0; i--) {
-            if (randomNumber > weightBoundaries[i]) return shapeList[i].ShapeString;
+            if (randomNumber > weightBoundaries[i])
+            {
+                return shapeList[i].ShapeString;
+            }
         }
         return shapeList[0].ShapeString;
     }

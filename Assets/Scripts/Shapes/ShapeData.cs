@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
@@ -18,7 +16,7 @@ public struct ShapeData : ISerializationCallbackReceiver
             DropWeighting = 1;
         }
 
-        if (!Enabled)
+        if (Enabled == false)
         {
             DropWeighting = 0;
         }

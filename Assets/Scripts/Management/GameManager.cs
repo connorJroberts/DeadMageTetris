@@ -1,8 +1,4 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -16,8 +12,8 @@ public class GameManager : MonoBehaviour
     [field: SerializeField] public Grid WorldGrid { get; private set; }
 
     public static GameManager Instance { get; private set; }
-    public int CurrentLevel { get; private set; } = 0;
     public LevelData CurrentLevelData;
+    public int CurrentLevel { get; private set; } = 0;
     public int CurrentScore { get; private set; } = 0;
     public float CurrentDropSpeed { get; private set; }
 
@@ -38,14 +34,19 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance != null && Instance != this) Destroy(this);
-        else Instance = this;
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
 
         CurrentLevelData = _levels[CurrentLevel].LevelData;
 
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         OnScoreChanged.AddListener(CheckLevelComplete);
@@ -66,12 +67,4 @@ public class GameManager : MonoBehaviour
             CurrentScore = 0;
         }
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-
 }

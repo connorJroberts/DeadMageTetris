@@ -25,10 +25,22 @@ public class ShapeMove : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButtonDown("Horizontal")) OnHorizontal(Input.GetAxisRaw("Horizontal"));
-        else if (Input.GetButtonDown("Down")) OnDown();
-        else if (Input.GetButtonDown("Drop")) OnDrop();
-        else if (Input.GetButtonDown("Rotate")) OnRotate();
+        if (Input.GetButtonDown("Horizontal") == true)
+        {
+            OnHorizontal(Input.GetAxisRaw("Horizontal"));
+        }
+        else if (Input.GetButtonDown("Down") == true)
+        {
+            OnDown();
+        }
+        else if (Input.GetButtonDown("Drop") == true)
+        {
+            OnDrop();
+        }
+        else if (Input.GetButtonDown("Rotate") == true)
+        {
+            OnRotate();
+        }
     }
 
     public void OnHorizontal(float direction)
@@ -38,9 +50,18 @@ public class ShapeMove : MonoBehaviour
         {
             Vector3Int blockPosition = _shape.WorldGrid.WorldToCell(block.transform.position);
 
-            if (blockPosition.x + direction >= BoardController.BOARDWIDTH) return;
-            if (blockPosition.x + direction < 0 ) return;
-            if (GameManager.Instance.Board.BoardState[blockPosition.x + (int)direction, blockPosition.y] == 1) return;
+            if (blockPosition.x + direction >= BoardController.BOARDWIDTH)
+            {
+                return;
+            }
+            if (blockPosition.x + direction < 0)
+            {
+                return;
+            }
+            if (GameManager.Instance.Board.BoardState[blockPosition.x + (int)direction, blockPosition.y] == 1)
+            {
+                return;
+            }
 
         }
         transform.position += new Vector3(direction * _shape.WorldGrid.cellSize.x, 0, 0);

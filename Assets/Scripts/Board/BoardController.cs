@@ -1,7 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Jobs;
 using UnityEngine;
 
 public class BoardController : MonoBehaviour
@@ -20,7 +16,10 @@ public class BoardController : MonoBehaviour
         int height = 0;
         for (int y = 0; y < BOARDHEIGHT; y++)
         {
-            if (BoardState[x,y] == 0) continue;
+            if (BoardState[x, y] == 0)
+            {
+                continue;
+            }
             if (BoardState[x,y] == 1)
             {
                 height = y + 1;
@@ -35,7 +34,10 @@ public class BoardController : MonoBehaviour
         int fill = 0;
         for (int x = 0; x < BOARDWIDTH; x++)
         {
-            if (BoardState[x, y] == 0) continue;
+            if (BoardState[x, y] == 0)
+            {
+                continue;
+            }
             if (BoardState[x, y] == 1)
             {
                 fill++;
@@ -50,9 +52,11 @@ public class BoardController : MonoBehaviour
         for (int x = 0; x < BOARDWIDTH; x++)
         {
             int currentHeight = GetColumnHeight(x);
-            if (currentHeight > maxHeight) maxHeight = currentHeight;
+            if (currentHeight > maxHeight)
+            {
+                maxHeight = currentHeight;
+            }
         }
-        print(maxHeight);
         return maxHeight;
     }
 
@@ -113,7 +117,10 @@ public class BoardController : MonoBehaviour
         BoardState = new int[BOARDWIDTH, BOARDHEIGHT];
         foreach (SpriteRenderer sprite in BoardSprites)
         {
-            if (sprite == null) continue;
+            if (sprite == null)
+            {
+                continue;
+            }
             Destroy(sprite.gameObject);
         }
         BoardSprites = new SpriteRenderer[BOARDWIDTH, BOARDHEIGHT];
@@ -137,7 +144,10 @@ public class BoardController : MonoBehaviour
     {
         for (int y = 0; y < BOARDHEIGHT; y++)
         {
-            if (CheckRemoveRow(y)) CheckAllRowsForRemoval();
+            if (CheckRemoveRow(y) == true)
+            {
+                CheckAllRowsForRemoval();
+            }
         }
     }
     public bool CheckRemoveRow(int y)
