@@ -58,7 +58,7 @@ MonoBehaviour:
         _____'
     - ShapeName: RZ-block
       Enabled: 1
-      DropWeighting: 15
+      DropWeighting: 10
       ShapeString: 'RZ-block
 
         _XX__
@@ -100,7 +100,7 @@ MonoBehaviour:
         _____'
     - ShapeName: Z-block
       Enabled: 1
-      DropWeighting: 15
+      DropWeighting: 10
       ShapeString: 'Z-block
 
         XX___

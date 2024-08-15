@@ -6,6 +6,7 @@ public class ShapeSpawner : MonoBehaviour
 {
     [SerializeField] Grid WorldGrid;
     [SerializeField] private Sprite _sprite;
+    [SerializeField] private AudioSource _sound;
 
     public string NextShape {  get; private set; }
     public Shape CurrentShape { get; private set; }
@@ -48,6 +49,7 @@ public class ShapeSpawner : MonoBehaviour
                 shapeList.Add(shapeData);
             }
         }
+        NextShape = ChooseShapeFromWeight(shapeList);
         SpawnShape();
     }
 
@@ -75,6 +77,7 @@ public class ShapeSpawner : MonoBehaviour
         shape.SetSprite(_sprite);
         shape.ConfigureShape(NextShape);
         shape.OnPlaced.AddListener(SpawnShape);
+        shape.GetComponent<ShapeMove>().OnMove.AddListener(_sound.Play);
         NextShape = ChooseShapeFromWeight(shapeList);
         OnShapeSpawned.Invoke(NextShape);
     }
@@ -92,10 +95,11 @@ public class ShapeSpawner : MonoBehaviour
         float randomNumber = Random.Range(0, weightSum);
 
         for (int i = weightBoundaries.Count - 1; i >= 0; i--) {
-            if (randomNumber > weightBoundaries[i])
+            if (i - 1 != -1 && randomNumber >= weightBoundaries[i - 1] )
             {
                 return shapeList[i].ShapeString;
             }
+
         }
         return shapeList[0].ShapeString;
     }

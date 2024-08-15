@@ -68,6 +68,9 @@ public struct LevelData : ISerializationCallbackReceiver
 
         _shapeFileStrings = shapeFiles.ToList();
 
+        // There is a bug with this that displays a phantom shape at the end. Don't know why yet
+        // but it doesn't affect the ability to use the shape list.
+
     }
 
     public void OnAfterDeserialize() => FindShapeFiles();

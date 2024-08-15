@@ -27,7 +27,12 @@ public class Shape : MonoBehaviour
 
     }
 
-    //For displaying a shape without spawning it into the world.
+    /* My Reasoning for not using a prefab here is due to how important
+     * blocks are in tetris. Blocks need to be transferred from shapes
+     * to environment constantly, and building them from scratch is very
+     * simple, just needing a spriterenderer. overall it didn't seem 
+     * necessary to turn it into a prefab for each block.  */
+
     public void SpawnSprites(string shapeString, out Vector3 pivotOffset)
     {
         pivotOffset = Vector3.zero;
@@ -36,6 +41,7 @@ public class Shape : MonoBehaviour
         {
             for (int j = 0; j < shapeDefinition.GetLength(1); j++)
             {
+                //Dyanmically Builds shapes from scratch, no need for prefabs to be instanced.
                 if (shapeDefinition[i, j] == 0) continue;
                 pivotOffset = new Vector3(pivotLocation.x - Mathf.Round(pivotLocation.x), pivotLocation.y - Mathf.Round(pivotLocation.y), 0);
                 Vector3 spriteSpawnPosition = WorldGrid.CellToLocal(new Vector3Int(i - (int)(pivotLocation.x), j - (int)(pivotLocation.y), 0)) - pivotOffset;
@@ -51,13 +57,14 @@ public class Shape : MonoBehaviour
 
     public void ParseShapeString(string shapeString, out Vector2 pivotLocation, out int[,] shapeDefinition)
     {
+        //Ensure starting values are default
         shapeDefinition = null;
         pivotLocation = Vector2Int.zero;
         int pivotCount = 0;
 
+        //Read shape identifier and remove from string
         var identifier = new StringReader(shapeString).ReadLine();
         shapeString = shapeString.Remove(0, identifier.Length + 2); //Remove name identifier for easier parse, +2 removes \n
-
 
         var blockSize = new StringReader(shapeString).ReadLine().Length;
         Vector2Int currentShapeIndex = Vector2Int.zero;
@@ -123,7 +130,6 @@ public class Shape : MonoBehaviour
             GameManager.Instance.Board.BoardState[blockPosition.x, blockPosition.y] = 1;
         }
         GameManager.Instance.Board.CheckAllRowsForRemoval();
-        GameManager.Instance.Board.PrintBoard();
         OnPlaced.Invoke();
         Destroy(gameObject);
     }

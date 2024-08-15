@@ -29,8 +29,8 @@ MonoBehaviour:
 
         _____'
     - ShapeName: L-block
-      Enabled: 1
-      DropWeighting: 10
+      Enabled: 0
+      DropWeighting: 0
       ShapeString: 'L-block
 
         _____
@@ -43,8 +43,8 @@ MonoBehaviour:
 
         _____'
     - ShapeName: RL-block
-      Enabled: 1
-      DropWeighting: 10
+      Enabled: 0
+      DropWeighting: 0
       ShapeString: 'RL-block
 
         _____
@@ -86,7 +86,7 @@ MonoBehaviour:
         _____'
     - ShapeName: T-block
       Enabled: 1
-      DropWeighting: 10
+      DropWeighting: 100
       ShapeString: 'T-block
 
         _X___

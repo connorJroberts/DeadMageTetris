@@ -78,7 +78,10 @@ public class BoardController : MonoBehaviour
                 if (h == y)
                 {
                     var block = (tempBoard[x, h] as Component);
-                    if (block != null) Destroy(block.gameObject);
+                    if (block != null)
+                    {
+                        Destroy(block.gameObject);
+                    }
                 }
                 if (h >= y && h + 1 < BOARDHEIGHT)
                 {
@@ -112,7 +115,7 @@ public class BoardController : MonoBehaviour
         return tempBoard;
     }
 
-    public void Clear()
+    public void ClearBoard()
     {
         BoardState = new int[BOARDWIDTH, BOARDHEIGHT + 3];
         foreach (SpriteRenderer sprite in BoardSprites)

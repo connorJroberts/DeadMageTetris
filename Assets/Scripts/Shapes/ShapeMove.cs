@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ShapeMove : MonoBehaviour
 {
@@ -11,6 +12,13 @@ public class ShapeMove : MonoBehaviour
     private IEnumerator _currentHorizontalBufferRoutine;
     private IEnumerator _currentDownBufferRoutine;
     private IEnumerator _currentRotateBufferRoutine;
+
+    public UnityEvent OnMove;
+
+    private void Awake()
+    {
+        OnMove = new UnityEvent();
+    }
 
     private void Start()
     {
@@ -109,7 +117,7 @@ public class ShapeMove : MonoBehaviour
 
     public void OnHorizontal(float direction)
     {
-
+        OnMove.Invoke();
         foreach (SpriteRenderer block in _shape.Blocks)
         {
             Vector3Int blockPosition = _shape.WorldGrid.WorldToCell(block.transform.position);
@@ -133,12 +141,14 @@ public class ShapeMove : MonoBehaviour
 
     public void OnDown()
     {
+        OnMove.Invoke();
         transform.position -= new Vector3(0, _shape.WorldGrid.cellSize.y, 0);
         _shape.CheckForShapePlace();
     }
 
     public void OnDrop()
     {
+        OnMove.Invoke();
         while (_shape.CheckForShapePlace() == false)
         {
             transform.position -= new Vector3(0, _shape.WorldGrid.cellSize.y, 0);
@@ -147,6 +157,7 @@ public class ShapeMove : MonoBehaviour
 
     public void OnRotate()
     {
+        OnMove.Invoke();
         transform.Rotate(new Vector3(0, 0, 90));
         foreach (SpriteRenderer block in _shape.Blocks)
         {

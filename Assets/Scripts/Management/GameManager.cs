@@ -100,14 +100,14 @@ public class GameManager : MonoBehaviour
         CurrentLevel = 0;
         CurrentLevelData = _levels[CurrentLevel].LevelData;
         CurrentDropSpeed = CurrentLevelData.SpeedMin;
-        Board.Clear();
+        Board.ClearBoard();
         CurrentScore = 0;
         OnLevelStarted.Invoke();
     }
 
     private void NextLevel()
     {
-        Board.Clear();
+        Board.ClearBoard();
         OnLevelStarted.Invoke();
     }
 
@@ -126,7 +126,7 @@ public class GameManager : MonoBehaviour
             }
             CurrentLevelData = _levels[CurrentLevel].LevelData;
             Destroy(ShapeSpawner.CurrentShape.gameObject);
-            Board.Clear();
+            Board.ClearBoard();
             CurrentDropSpeed = CurrentLevelData.SpeedMin;
             CurrentScore = 0;
         }
