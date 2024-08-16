@@ -27,12 +27,6 @@ public class Shape : MonoBehaviour
 
     }
 
-    /* My Reasoning for not using a prefab here is due to how important
-     * blocks are in tetris. Blocks need to be transferred from shapes
-     * to environment constantly, and building them from scratch is very
-     * simple, just needing a spriterenderer. overall it didn't seem 
-     * necessary to turn it into a prefab for each block.  */
-
     public void SpawnSprites(string shapeString, out Vector3 pivotOffset)
     {
         pivotOffset = Vector3.zero;
@@ -41,10 +35,14 @@ public class Shape : MonoBehaviour
         {
             for (int j = 0; j < shapeDefinition.GetLength(1); j++)
             {
-                //Dyanmically Builds shapes from scratch, no need for prefabs to be instanced.
+                // Dyanmically Builds shapes from scratch, no need for prefabs to be instanced.
+                // Prefabs could definitely work here, but this is the solution I went with,
+                // As it keeps the project filesystem clean, and requires no in engine work
+                // by hypothetical designers.
                 if (shapeDefinition[i, j] == 0) continue;
                 pivotOffset = new Vector3(pivotLocation.x - Mathf.Round(pivotLocation.x), pivotLocation.y - Mathf.Round(pivotLocation.y), 0);
-                Vector3 spriteSpawnPosition = WorldGrid.CellToLocal(new Vector3Int(i - (int)(pivotLocation.x), j - (int)(pivotLocation.y), 0)) - pivotOffset;
+                Vector3 spriteSpawnPosition = WorldGrid.CellToLocal(new Vector3Int(-(i - (int)(pivotLocation.x)), -(j - (int)(pivotLocation.y)), 0)) - pivotOffset;
+                //The x and y values are made negative here so the shapes are constructed oriented the same way as in the .txt, otherwise they would be upsidedown.
                 Transform spriteTransform = new GameObject("SpriteContainer").transform;
                 spriteTransform.parent = transform;
                 SpriteRenderer spriteRenderer = spriteTransform.AddComponent<SpriteRenderer>();
